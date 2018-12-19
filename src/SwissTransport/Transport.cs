@@ -43,7 +43,7 @@ namespace SwissTransport
             return null;
         }
 
-        public Connections GetConnections(string fromStation, string toStation)
+        public Connections GetConnections(string fromStation, string toStation, string date, string time)
         {
             fromStation = System.Uri.EscapeDataString(fromStation);
             toStation = System.Uri.EscapeDataString(toStation);
