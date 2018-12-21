@@ -39,6 +39,8 @@ namespace AppSwissTransport
 
         private void btnSuche_Click_1(object sender, EventArgs e)
         {
+            
+            dgrdAbfahrtsTafel.Visible = true;
             dgrdAbfahrtsTafel.Rows.Clear();
 
             List<StationBoard> stationBoard = transport.GetStationBoard(cbAbfahrt.Text, "20").Entries;
@@ -55,11 +57,30 @@ namespace AppSwissTransport
             });
 
             cbAbfahrt.Text = "";
+            
+
         }
 
         private void btnAutoFill_Click(object sender, EventArgs e)
         {
             combox(cbAbfahrt);
+            cbAbfahrt.DroppedDown = true;
+            cbAbfahrt.Focus();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void cbAbfahrt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.AcceptButton = btnSuche;
         }
     }
 }

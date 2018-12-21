@@ -16,12 +16,12 @@ namespace AppSwissTransport
         {
             InitializeComponent();
         }
-
+        // Standortmaps Form schliessen
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
-
+        // komplette Applikation schliessen
         private void btnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();

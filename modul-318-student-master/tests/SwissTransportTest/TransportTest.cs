@@ -20,16 +20,17 @@ namespace SwissTransport
         public void StationBoard()
         {
             testee = new Transport();
-            var stationBoard = testee.GetStationBoard("Sursee", "8502007");
+            var stationBoard = testee.GetStationBoard("Sursee", "20");
 
             Assert.IsNotNull(stationBoard);
         }
-
+        // Ich musste den Test abändern weil der GetConnections 4 Strings erwartet.
+        // Date und Time hinzugefügt.
         [TestMethod]
         public void Connections()
         {
             testee = new Transport();
-            var connections = testee.GetConnections("Sursee", "Luzern");
+            var connections = testee.GetConnections("Sursee", "Luzern", "2018-12-21", "19:00");
 
             Assert.IsNotNull(connections);
         }

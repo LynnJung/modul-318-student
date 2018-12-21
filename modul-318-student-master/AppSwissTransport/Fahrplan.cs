@@ -22,28 +22,45 @@ namespace AppSwissTransport
         {
             InitializeComponent();
         }
-
+        //
+        // Stationen In die Combobox einfügen und Auto complete
+        //
         public void combox(ComboBox comboBoxName)
         {
-            if (!string.IsNullOrEmpty(comboBoxName.Text))
+            try
             {
-                List<Station> stations = transport.GetStations(comboBoxName.Text).StationList;
-                if (stations.Count > 0)
+                if (!string.IsNullOrEmpty(comboBoxName.Text))
                 {
-                    comboBoxName.Items.Clear();
-                    foreach (Station station in stations)
+                    List<Station> stations = transport.GetStations(comboBoxName.Text).StationList;
+                    if (stations.Count > 0)
                     {
-                        comboBoxName.Items.Add(station.Name);
+                        comboBoxName.Items.Clear();
+                        foreach (Station station in stations)
+                        {
+                            comboBoxName.Items.Add(station.Name);
+                            
+                        }
                     }
+
+                    comboBoxName.Text = "";
+                    comboBoxName.SelectedIndex = 0;
                 }
-                comboBoxName.Text = "";
-                comboBoxName.SelectedIndex = 0;
+            }
+            catch
+            {
+                MessageBox.Show("Diese Station gibt es nicht!");
             }
         }
+        //
+        // Url für die Station zusammenstellen mit x und y koordinaten
+        //
         private void Create_GmapStation(string x, string y)
         {
             url = "https://www.google.ch/maps/place/" + x + "," + y;
         }
+        //
+        // Table build für email
+        // 
         public string Get_TableFromDataGrid()
         {
             StringBuilder strTable = new StringBuilder();
@@ -76,49 +93,88 @@ namespace AppSwissTransport
             }
             return strTable.ToString();
         }
-
+        
+        // Suchen von stationen in Combobox Abfahrt
+        
         private void btnVon_Click(object sender, EventArgs e)
         {
-
+            cbAbfahrt.Focus();
             combox(cbAbfahrt);
+            cbAbfahrt.DroppedDown = true;
 
         }
+
+        // Suchen von stationen in Combobox Ankunft
 
         private void btnNach_Click(object sender, EventArgs e)
         {
+            cbAnkunft.Focus();
             combox(cbAnkunft);
+            cbAnkunft.DroppedDown = true;
         }
+        //Methode um das Grid zu erstellen
+        private void Get_Grid()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            DataTable dtt_connections = new DataTable();
+            dtt_connections.Columns.Add("Datum");
+            dtt_connections.Columns.Add("Von");
+            dtt_connections.Columns.Add("Abfahrt");
+            dtt_connections.Columns.Add("Nach");
+            dtt_connections.Columns.Add("Ankunft");
+            dtt_connections.Columns.Add("Gleis");
+
+            //Abfrage
+            Connections connections = transport.GetConnections(cbAbfahrt.Text, cbAnkunft.Text, dtpDate.Value.ToString("yyyy-MM-dd"), dtpTime.Text);
+
+            //Jedes Resulatat zur Liste hinzufügen
+            foreach (Connection connection in connections.ConnectionList)
+            {
+                dtt_connections.Rows.Add(Get_Date(connection.From.Departure), connection.From.Station.Name, Get_Time(connection.From.Departure), connection.To.Station.Name, Get_Time(connection.To.Arrival), connection.To.Platform);
+            }
+
+            dgvFahrplan.DataSource = dtt_connections;
+            UseWaitCursor = false;
+        }
+
+        //Wenn auf Button Suche Klicken Grid anzeigen mit Ausfallsicherung
+
         private void btnSuche_Click(object sender, EventArgs e)
         {
-            if (cbAbfahrt == null)
+            if (cbAbfahrt.Text.Length <= 1)
             {
-                MessageBox.Show("Bitte geben Sie eine Station an.");
+                MessageBox.Show("Bitte geben Sie eine Station an."); // Falls das eingabefeld Abfahrt leer ist gibt es diese Nachricht aus
             }
-            else
+
+            if (cbAnkunft.Text.Length <= 1)
             {
-                dgvFahrplan.Rows.Clear();
-                Connections cons = transport.GetConnections(cbAbfahrt.Text, cbAnkunft.Text);
-                cons.ConnectionList.ForEach(delegate(Connection conn)
-                {
-
-                    object[] arr = new object[3];
-
-                    DateTime dt = Convert.ToDateTime(conn.From.Departure);
-                    DateTime dt2 = Convert.ToDateTime(conn.To.Arrival);
-
-                    arr[0] = dt.ToString("HH:MM");
-                    arr[1] = dt2.ToString("HH:MM");
-                    arr[2] = conn.From.Platform;
-
-                    dgvFahrplan.Rows.Add(arr);
-                });
+                MessageBox.Show("Bitte geben Sie eine Station an."); // Falls das Eingabefeld Ankunft leer ist gibt es diese Nachricht aus
+            }
+            else // Wenn bei beiden Feldern etwas eingegeben wurde geht hier rein 
+            { 
+                 Get_Grid();
             }
 
 
         }
+        // Datumformat
+        private string Get_Date(string date1)
+        {
+            string date2 = date1.Remove(10);
+            DateTime date3 = Convert.ToDateTime(date2);
+            return date3.ToString("dd.MM.yyyy");
+        }
+        // Zeitformat 
+        private string Get_Time(string time1) //Zeit kommt so 13:25:00 und die letzen 2 Stellen :00 werden hier gelöscht.
+        {
+            string time2 = time1.Remove(0, 11);
+            time2 = time2.Remove(5);
+            return time2;
+        }
 
 
-       
+        //zu Form Abfahrtstafel wächseln
         private void btnAbfahrtstafel_Click(object sender, EventArgs e)
         {
             Form Abfahrt = new Abfahrtstafel();
@@ -127,7 +183,7 @@ namespace AppSwissTransport
 
 
 
-
+        // Mail funktion über erstellte Email von Gmail
         private void button1_Click(object sender, EventArgs e)
         {
             if (txtMail.Text == "")
@@ -157,19 +213,29 @@ namespace AppSwissTransport
                 }
             }
         }
-
+        // Auf Form Maps wächseln
         private void btnMapsSearch_Click(object sender, EventArgs e)
         {
-            Form Googlemaps = new Maps(cbAbfahrt.Text);
-            Googlemaps.Show();
+            if (cbAbfahrt.Text.Length > 1)
+            {
+                string ort = cbAbfahrt.Text;
+                Form Googlemaps = new Maps(ort);
+                Googlemaps.Show();
+            }
+            else
+            {
+                MessageBox.Show("Bitte Station Auswählen");
+            }
         }
 
+        // Auf Form Standortmaps wächseln
         private void btnNearby_Click(object sender, EventArgs e)
         {
             Form sMaps = new Standortmaps();
             sMaps.Show();
         }
 
+        //Öffnet Google Maps in Browser mit der Ausgewählten Station
         private void linkStationMaps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -189,6 +255,12 @@ namespace AppSwissTransport
             }
 
 
+        }
+
+        // Öffnet Google Maps in Browser mit Stationen nearby
+        private void linkStandortMaps_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.google.ch/maps/search/transit+stop+nearby/");
         }
     }
 }

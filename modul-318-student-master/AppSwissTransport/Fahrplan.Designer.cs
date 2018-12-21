@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblVon = new System.Windows.Forms.Label();
             this.lblNach = new System.Windows.Forms.Label();
             this.dgvFahrplan = new System.Windows.Forms.DataGridView();
-            this.Abfahrt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ankunft = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Gleis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbAbfahrt = new System.Windows.Forms.ComboBox();
             this.btnSuche = new System.Windows.Forms.Button();
             this.cbAnkunft = new System.Windows.Forms.ComboBox();
@@ -47,8 +46,13 @@
             this.linkStandortMaps = new System.Windows.Forms.LinkLabel();
             this.linkStationMaps = new System.Windows.Forms.LinkLabel();
             this.gbSuche = new System.Windows.Forms.GroupBox();
+            this.dtpTime = new System.Windows.Forms.DateTimePicker();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.gbVerbindungen = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFahrplan)).BeginInit();
+            this.gbSuche.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblVon
@@ -75,37 +79,19 @@
             this.dgvFahrplan.AllowUserToDeleteRows = false;
             this.dgvFahrplan.AllowUserToResizeColumns = false;
             this.dgvFahrplan.AllowUserToResizeRows = false;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            this.dgvFahrplan.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvFahrplan.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvFahrplan.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvFahrplan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFahrplan.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Abfahrt,
-            this.Ankunft,
-            this.Gleis});
-            this.dgvFahrplan.GridColor = System.Drawing.SystemColors.ButtonFace;
+            this.dgvFahrplan.GridColor = System.Drawing.SystemColors.Control;
             this.dgvFahrplan.Location = new System.Drawing.Point(111, 177);
             this.dgvFahrplan.Name = "dgvFahrplan";
             this.dgvFahrplan.ReadOnly = true;
-            this.dgvFahrplan.Size = new System.Drawing.Size(341, 139);
-            this.dgvFahrplan.TabIndex = 4;
-            // 
-            // Abfahrt
-            // 
-            this.Abfahrt.HeaderText = "Abfahrt";
-            this.Abfahrt.Name = "Abfahrt";
-            this.Abfahrt.ReadOnly = true;
-            // 
-            // Ankunft
-            // 
-            this.Ankunft.HeaderText = "Ankunft";
-            this.Ankunft.Name = "Ankunft";
-            this.Ankunft.ReadOnly = true;
-            // 
-            // Gleis
-            // 
-            this.Gleis.HeaderText = "Gleis";
-            this.Gleis.Name = "Gleis";
-            this.Gleis.ReadOnly = true;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Silver;
+            this.dgvFahrplan.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvFahrplan.Size = new System.Drawing.Size(656, 139);
+            this.dgvFahrplan.TabIndex = 8;
             // 
             // cbAbfahrt
             // 
@@ -120,7 +106,7 @@
             this.btnSuche.Location = new System.Drawing.Point(111, 123);
             this.btnSuche.Name = "btnSuche";
             this.btnSuche.Size = new System.Drawing.Size(283, 24);
-            this.btnSuche.TabIndex = 5;
+            this.btnSuche.TabIndex = 7;
             this.btnSuche.Text = "Verbindungen Suchen";
             this.btnSuche.UseVisualStyleBackColor = true;
             this.btnSuche.Click += new System.EventHandler(this.btnSuche_Click);
@@ -135,10 +121,10 @@
             // 
             // btnAbfahrtstafel
             // 
-            this.btnAbfahrtstafel.Location = new System.Drawing.Point(111, 328);
+            this.btnAbfahrtstafel.Location = new System.Drawing.Point(130, 328);
             this.btnAbfahrtstafel.Name = "btnAbfahrtstafel";
             this.btnAbfahrtstafel.Size = new System.Drawing.Size(127, 33);
-            this.btnAbfahrtstafel.TabIndex = 6;
+            this.btnAbfahrtstafel.TabIndex = 9;
             this.btnAbfahrtstafel.Text = "Abfahrtstafel";
             this.btnAbfahrtstafel.UseVisualStyleBackColor = true;
             this.btnAbfahrtstafel.Click += new System.EventHandler(this.btnAbfahrtstafel_Click);
@@ -165,38 +151,38 @@
             // 
             // txtMail
             // 
-            this.txtMail.Location = new System.Drawing.Point(504, 301);
+            this.txtMail.Location = new System.Drawing.Point(537, 328);
             this.txtMail.Multiline = true;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(152, 21);
-            this.txtMail.TabIndex = 7;
+            this.txtMail.TabIndex = 12;
             // 
             // btnMail
             // 
-            this.btnMail.Location = new System.Drawing.Point(504, 328);
+            this.btnMail.Location = new System.Drawing.Point(537, 354);
             this.btnMail.Name = "btnMail";
             this.btnMail.Size = new System.Drawing.Size(152, 33);
-            this.btnMail.TabIndex = 8;
+            this.btnMail.TabIndex = 13;
             this.btnMail.Text = "Fahrplan per Email senden";
             this.btnMail.UseVisualStyleBackColor = true;
             this.btnMail.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnMapsSearch
             // 
-            this.btnMapsSearch.Location = new System.Drawing.Point(418, 42);
+            this.btnMapsSearch.Location = new System.Drawing.Point(386, 16);
             this.btnMapsSearch.Name = "btnMapsSearch";
             this.btnMapsSearch.Size = new System.Drawing.Size(147, 23);
-            this.btnMapsSearch.TabIndex = 11;
+            this.btnMapsSearch.TabIndex = 0;
             this.btnMapsSearch.Text = "Ort auf der Karte anzeigen";
             this.btnMapsSearch.UseVisualStyleBackColor = true;
             this.btnMapsSearch.Click += new System.EventHandler(this.btnMapsSearch_Click);
             // 
             // btnNearby
             // 
-            this.btnNearby.Location = new System.Drawing.Point(308, 328);
+            this.btnNearby.Location = new System.Drawing.Point(335, 328);
             this.btnNearby.Name = "btnNearby";
             this.btnNearby.Size = new System.Drawing.Size(137, 33);
-            this.btnNearby.TabIndex = 12;
+            this.btnNearby.TabIndex = 10;
             this.btnNearby.Text = "Stationen in der Nähe";
             this.btnNearby.UseVisualStyleBackColor = true;
             this.btnNearby.Click += new System.EventHandler(this.btnNearby_Click);
@@ -204,38 +190,82 @@
             // linkStandortMaps
             // 
             this.linkStandortMaps.AutoSize = true;
-            this.linkStandortMaps.Location = new System.Drawing.Point(305, 364);
+            this.linkStandortMaps.Location = new System.Drawing.Point(325, 374);
             this.linkStandortMaps.Name = "linkStandortMaps";
             this.linkStandortMaps.Size = new System.Drawing.Size(147, 13);
-            this.linkStandortMaps.TabIndex = 13;
+            this.linkStandortMaps.TabIndex = 11;
             this.linkStandortMaps.TabStop = true;
             this.linkStandortMaps.Text = "Standort im Browser anzeigen";
+            this.linkStandortMaps.Click += new System.EventHandler(this.linkStandortMaps_Click);
             // 
             // linkStationMaps
             // 
             this.linkStationMaps.AutoSize = true;
-            this.linkStationMaps.Location = new System.Drawing.Point(415, 68);
+            this.linkStationMaps.Location = new System.Drawing.Point(383, 42);
             this.linkStationMaps.Name = "linkStationMaps";
             this.linkStationMaps.Size = new System.Drawing.Size(140, 13);
-            this.linkStationMaps.TabIndex = 14;
+            this.linkStationMaps.TabIndex = 0;
             this.linkStationMaps.TabStop = true;
             this.linkStationMaps.Text = "Station im Browser anzeigen";
             this.linkStationMaps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkStationMaps_LinkClicked);
             // 
             // gbSuche
             // 
+            this.gbSuche.Controls.Add(this.dtpTime);
+            this.gbSuche.Controls.Add(this.lblTime);
+            this.gbSuche.Controls.Add(this.lblDate);
+            this.gbSuche.Controls.Add(this.linkStationMaps);
+            this.gbSuche.Controls.Add(this.dtpDate);
+            this.gbSuche.Controls.Add(this.btnMapsSearch);
             this.gbSuche.Location = new System.Drawing.Point(12, 26);
             this.gbSuche.Name = "gbSuche";
-            this.gbSuche.Size = new System.Drawing.Size(652, 145);
+            this.gbSuche.Size = new System.Drawing.Size(761, 145);
             this.gbSuche.TabIndex = 15;
             this.gbSuche.TabStop = false;
             this.gbSuche.Text = "Suche :";
+            // 
+            // dtpTime
+            // 
+            this.dtpTime.CustomFormat = "HH:mm";
+            this.dtpTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpTime.Location = new System.Drawing.Point(618, 52);
+            this.dtpTime.Name = "dtpTime";
+            this.dtpTime.ShowUpDown = true;
+            this.dtpTime.Size = new System.Drawing.Size(70, 20);
+            this.dtpTime.TabIndex = 6;
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(554, 55);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(25, 13);
+            this.lblTime.TabIndex = 18;
+            this.lblTime.Text = "Zeit";
+            // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Location = new System.Drawing.Point(554, 21);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(44, 13);
+            this.lblDate.TabIndex = 17;
+            this.lblDate.Text = "Datum :";
+            // 
+            // dtpDate
+            // 
+            this.dtpDate.CustomFormat = "yyyy-MM-dd";
+            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDate.Location = new System.Drawing.Point(618, 19);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(95, 20);
+            this.dtpDate.TabIndex = 5;
             // 
             // gbVerbindungen
             // 
             this.gbVerbindungen.Location = new System.Drawing.Point(12, 170);
             this.gbVerbindungen.Name = "gbVerbindungen";
-            this.gbVerbindungen.Size = new System.Drawing.Size(486, 152);
+            this.gbVerbindungen.Size = new System.Drawing.Size(761, 152);
             this.gbVerbindungen.TabIndex = 16;
             this.gbVerbindungen.TabStop = false;
             this.gbVerbindungen.Text = "Verbindungen :";
@@ -244,11 +274,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(676, 391);
-            this.Controls.Add(this.linkStationMaps);
+            this.ClientSize = new System.Drawing.Size(785, 405);
             this.Controls.Add(this.linkStandortMaps);
             this.Controls.Add(this.btnNearby);
-            this.Controls.Add(this.btnMapsSearch);
             this.Controls.Add(this.btnMail);
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.btnNach);
@@ -265,6 +293,8 @@
             this.Name = "Fahrplan";
             this.Text = "Fahrplan";
             ((System.ComponentModel.ISupportInitialize)(this.dgvFahrplan)).EndInit();
+            this.gbSuche.ResumeLayout(false);
+            this.gbSuche.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,9 +310,6 @@
         private System.Windows.Forms.Button btnAbfahrtstafel;
         private System.Windows.Forms.Button btnVon;
         private System.Windows.Forms.Button btnNach;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Abfahrt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ankunft;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Gleis;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.Button btnMail;
         private System.Windows.Forms.Button btnMapsSearch;
@@ -292,6 +319,10 @@
         private System.Windows.Forms.LinkLabel linkStationMaps;
         private System.Windows.Forms.GroupBox gbSuche;
         private System.Windows.Forms.GroupBox gbVerbindungen;
+        private System.Windows.Forms.DateTimePicker dtpTime;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label lblDate;
+        private System.Windows.Forms.DateTimePicker dtpDate;
     }
 }
 
