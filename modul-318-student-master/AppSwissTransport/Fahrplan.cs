@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SwissTransport;
 using System.Net.Mail;
+using System.Security.Policy;
+
 namespace AppSwissTransport
 {
   
     public partial class Fahrplan : Form
     {
         Transport transport = new Transport();
+        private string url;
         public Fahrplan()
         {
             InitializeComponent();
@@ -39,8 +42,7 @@ namespace AppSwissTransport
         }
         private void Create_GmapStation(string x, string y)
         {
-            string url = "https://www.google.ch/maps/place/" + x + "," + y;
-            webGoogle.Navigate(url);
+            url = "https://www.google.ch/maps/place/" + x + "," + y;
         }
         public string Get_TableFromDataGrid()
         {
@@ -77,7 +79,9 @@ namespace AppSwissTransport
 
         private void btnVon_Click(object sender, EventArgs e)
         {
+
             combox(cbAbfahrt);
+
         }
 
         private void btnNach_Click(object sender, EventArgs e)
@@ -86,25 +90,33 @@ namespace AppSwissTransport
         }
         private void btnSuche_Click(object sender, EventArgs e)
         {
-            dgvFahrplan.Rows.Clear();
-            Connections cons = transport.GetConnections(cbAbfahrt.Text, cbAnkunft.Text);
-            cons.ConnectionList.ForEach(delegate (Connection conn)
+            if (cbAbfahrt == null)
             {
+                MessageBox.Show("Bitte geben Sie eine Station an.");
+            }
+            else
+            {
+                dgvFahrplan.Rows.Clear();
+                Connections cons = transport.GetConnections(cbAbfahrt.Text, cbAnkunft.Text);
+                cons.ConnectionList.ForEach(delegate(Connection conn)
+                {
 
-                object[] arr = new object[3];
+                    object[] arr = new object[3];
 
-                DateTime dt = Convert.ToDateTime(conn.From.Departure);
-                DateTime dt2 = Convert.ToDateTime(conn.To.Arrival);
+                    DateTime dt = Convert.ToDateTime(conn.From.Departure);
+                    DateTime dt2 = Convert.ToDateTime(conn.To.Arrival);
 
-                arr[0] = dt.ToString("HH:MM");
-                arr[1] = dt2.ToString("HH:MM");
-                arr[2] = conn.From.Platform;
+                    arr[0] = dt.ToString("HH:MM");
+                    arr[1] = dt2.ToString("HH:MM");
+                    arr[2] = conn.From.Platform;
 
-                dgvFahrplan.Rows.Add(arr);
-            });
+                    dgvFahrplan.Rows.Add(arr);
+                });
+            }
 
 
         }
+
 
        
         private void btnAbfahrtstafel_Click(object sender, EventArgs e)
@@ -148,6 +160,34 @@ namespace AppSwissTransport
 
         private void btnMapsSearch_Click(object sender, EventArgs e)
         {
+            Form Googlemaps = new Maps(cbAbfahrt.Text);
+            Googlemaps.Show();
+        }
+
+        private void btnNearby_Click(object sender, EventArgs e)
+        {
+            Form sMaps = new Standortmaps();
+            sMaps.Show();
+        }
+
+        private void linkStationMaps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                if (cbAbfahrt.Text != null)
+                {
+                    Stations stations = transport.GetStations(cbAbfahrt.Text);
+                    Station station = stations.StationList[0];
+                    Create_GmapStation(Convert.ToString(station.Coordinate.XCoordinate).Replace(',', '.'),
+                        Convert.ToString(station.Coordinate.YCoordinate).Replace(',', '.'));
+                }
+                    System.Diagnostics.Process.Start(url);
+            }
+            catch
+            {
+                MessageBox.Show("Bitte geben Sie eine Station ein und versuchen Sie es nochmals!");
+            }
+
 
         }
     }

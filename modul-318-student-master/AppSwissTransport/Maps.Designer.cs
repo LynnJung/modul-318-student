@@ -28,32 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.webGoogle = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // webGoogle
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1904, 1041);
-            this.webBrowser1.TabIndex = 0;
+            this.webGoogle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webGoogle.Location = new System.Drawing.Point(0, 0);
+            this.webGoogle.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webGoogle.Name = "webGoogle";
+            this.webGoogle.ScriptErrorsSuppressed = true;
+            this.webGoogle.Size = new System.Drawing.Size(1904, 1041);
+            this.webGoogle.TabIndex = 0;
             // 
             // Maps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
-            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.webGoogle);
             this.Name = "Maps";
             this.Text = "Maps";
+            this.Load += new System.EventHandler(this.Maps_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.WebBrowser webGoogle;
     }
 }
